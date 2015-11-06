@@ -10,7 +10,7 @@ object build extends Build {
     Common.settings ++ scalapropsSettings
   ).settings(
     name := msgpack4zCirceName,
-    scalapropsVersion := "0.1.15",
+    scalapropsVersion := "0.1.16",
     libraryDependencies ++= (
       ("io.circe" %% "circe-core" % "0.2.0") ::
       ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.4") ::
