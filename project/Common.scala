@@ -24,6 +24,7 @@ object Common {
     sonatypeSettings
   ).flatten ++ Seq(
     resolvers += Opts.resolver.sonatypeReleases,
+    fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseProcess := Seq[ReleaseStep](
       ReleaseStep{ state =>
