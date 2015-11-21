@@ -232,8 +232,8 @@ object CirceMsgpack {
         r
       case MsgType.BINARY =>
         Result.fromEither(unpackOptions.binary(unpacker), result)
-      case MsgType.EXTENDED =>
-        Result.fromEither(unpackOptions.extended(unpacker), result)
+      case MsgType.EXTENSION =>
+        Result.fromEither(unpackOptions.extension(unpacker), result)
     }
   }
 }

@@ -5,7 +5,7 @@ import io.circe.{JsonLong, Json}
 import scalaz.{\/-, -\/}
 
 final case class CirceUnpackOptions(
-  extended: Unpacker[Json],
+  extension: Unpacker[Json],
   binary: Unpacker[Json],
   positiveInf: UnpackResult[Json],
   negativeInf: UnpackResult[Json],
@@ -22,12 +22,23 @@ object CirceUnpackOptions {
     CodecInstances.binary.binaryCodec.unpack(unpacker).map(binaryToNumberArray)
   }
 
+  val extUnpacker: Unpacker[Json] = { unpacker =>
+    val header = unpacker.unpackExtTypeHeader
+    val data = unpacker.readPayload(header.getLength)
+    val dataArray = Json.fromValues(data.map(byte => Json.long(byte))(collection.breakOut))
+    val result = Json.obj(
+      ("type", Json.long(header.getType)),
+      ("data", dataArray)
+    )
+    \/-(result)
+  }
+
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
 
   private[this] val jNullRight = \/-(Json.Empty)
 
   val default: CirceUnpackOptions = CirceUnpackOptions(
-    _ => -\/(Err(new Exception("does not support extended type"))),
+    extUnpacker,
     binaryToNumberArrayUnpacker,
     jNullRight,
     jNullRight,
