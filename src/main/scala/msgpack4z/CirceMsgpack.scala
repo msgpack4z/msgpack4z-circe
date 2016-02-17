@@ -5,9 +5,9 @@ import scalaz.{-\/, \/, \/-, Equal}
 
 object CirceMsgpack {
 
-  implicit val circeJsonEqual: Equal[Json] = Equal.equal(_ === _)
-  implicit val circeJsonObjectEqual: Equal[JsonObject] = Equal.equal(_ === _)
-  implicit val circeJsonNumberEqual: Equal[JsonNumber] = Equal.equal(_ === _)
+  implicit val circeJsonEqual: Equal[Json] = Equal.equalA[Json]
+  implicit val circeJsonObjectEqual: Equal[JsonObject] = Equal.equalA[JsonObject]
+  implicit val circeJsonNumberEqual: Equal[JsonNumber] = Equal.equalA[JsonNumber]
 
   def jsonCodec(options: CirceUnpackOptions): MsgpackCodec[Json] =
     new CodecCirceJson(options)
@@ -52,11 +52,15 @@ object CirceMsgpack {
           case Some(l) =>
             packer.packLong(l)
           case None =>
-            val b = value.toBigDecimal
-            if(b.isWhole() && Long.MinValue <= b && b < BigDecimalLongMax2x){
-              packer.packBigInteger(b.underlying().toBigIntegerExact)
-            }else{
-              packer.packDouble(value.toDouble)
+            value.toBigDecimal match {
+              case Some(b) =>
+                if (b.isWhole() && Long.MinValue <= b && b < BigDecimalLongMax2x) {
+                  packer.packBigInteger(b.underlying().toBigIntegerExact)
+                } else {
+                  packer.packDouble(value.toDouble)
+                }
+              case None =>
+                packer.packDouble(value.toDouble)
             }
         }
       },
@@ -124,7 +128,7 @@ object CirceMsgpack {
 
     def process(key: String): Unit = {
      if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
-       obj += (key, mapElem.value)
+       obj = obj.add(key, mapElem.value)
        i += 1
      } else {
        result.error = mapElem.error
