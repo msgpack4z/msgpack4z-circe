@@ -1,8 +1,8 @@
 package msgpack4z
 
 import msgpack4z.CirceUnpackOptions.NonStringKeyHandler
-import io.circe.{JsonLong, Json}
-import scalaz.{\/-, -\/}
+import io.circe.Json
+import scalaz.\/-
 
 final case class CirceUnpackOptions(
   extension: Unpacker[Json],
