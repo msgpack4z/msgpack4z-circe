@@ -13,7 +13,7 @@ object build extends Build {
     scalapropsVersion := "0.2.1",
     libraryDependencies ++= (
       ("io.circe" %% "circe-core" % "0.3.0") ::
-      ("com.github.xuwei-k" %% "msgpack4z-core" % "0.3.1") ::
+      ("com.github.xuwei-k" %% "msgpack4z-core" % "0.3.2") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.2.0" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
       ("com.github.xuwei-k" %% "msgpack4z-native" % "0.2.1" % "test") ::
