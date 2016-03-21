@@ -7,9 +7,15 @@ import com.typesafe.sbt.pgp.PgpKeys
 
 object Common {
 
-  private def gitHash: String = scala.util.Try(
+  val tagName = Def.setting{
+    s"v${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}"
+  }
+  val tagOrHash = Def.setting{
+    if(isSnapshot.value) gitHash() else tagName.value
+  }
+
+  private def gitHash(): String =
     sys.process.Process("git rev-parse HEAD").lines_!.head
-  ).getOrElse("master")
 
   private[this] val unusedWarnings = (
     "-Ywarn-unused" ::
@@ -26,6 +32,7 @@ object Common {
     resolvers += Opts.resolver.sonatypeReleases,
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
+    releaseTagName := tagName.value,
     releaseProcess := Seq[ReleaseStep](
       ReleaseStep{ state =>
         assert(Sxr.disableSxr == false)
@@ -68,7 +75,7 @@ object Common {
     scalaVersion := scala211,
     crossScalaVersions := scala211 :: Nil,
     scalacOptions in (Compile, doc) ++= {
-      val tag = if(isSnapshot.value) gitHash else { "v" + version.value }
+      val tag = tagOrHash.value
       Seq(
         "-sourcepath", (baseDirectory in LocalRootProject).value.getAbsolutePath,
         "-doc-source-url", s"https://github.com/msgpack4z/msgpack4z-circe/tree/${tag}€{FILE_PATH}.scala"
@@ -85,7 +92,7 @@ object Common {
       <scm>
         <url>git@github.com:msgpack4z/msgpack4z-circe.git</url>
         <connection>scm:git:git@github.com:msgpack4z/msgpack4z-circe.git</connection>
-        <tag>{if(isSnapshot.value) gitHash else { "v" + version.value }}</tag>
+        <tag>{tagOrHash.value}</tag>
       </scm>
     ,
     description := "msgpack4z circe binding",
