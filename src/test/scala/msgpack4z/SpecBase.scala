@@ -5,7 +5,7 @@ import scalaprops._
 import scalaz.{-\/, Equal, \/-}
 import CirceMsgpack.{circeJsonEqual, circeJsonObjectEqual}
 
-sealed abstract class SpecBase extends Scalaprops {
+abstract class SpecBase extends Scalaprops {
 
   private[this] implicit val scalaDoubleGen: Gen[Double] =
     Gen[Long].map { n =>
@@ -95,19 +95,4 @@ sealed abstract class SpecBase extends Scalaprops {
   }
 
   override val param = super.param.copy(minSuccessful = 10000)
-}
-
-object Java06Spec extends SpecBase {
-  override protected[this] def packer() = Msgpack06.defaultPacker()
-  override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack06.defaultUnpacker(bytes)
-}
-
-object Java07Spec extends SpecBase {
-  override protected[this] def packer() = new Msgpack07Packer()
-  override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack07Unpacker.defaultUnpacker(bytes)
-}
-
-object NativeSpec extends SpecBase {
-  override protected[this] def packer() = MsgOutBuffer.create()
-  override protected[this] def unpacker(bytes: Array[Byte]) = MsgInBuffer(bytes)
 }
