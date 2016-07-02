@@ -22,18 +22,18 @@ abstract class SpecBase extends Scalaprops {
 
   private[this] val jsonNumberGen: Gen[Json] =
     Gen.oneOf(
-      bigDecimalGen.map(Json.bigDecimal),
-      Gen[Long].map(Json.long),
-      Gen[Double].map(Json.numberOrNull)
+      bigDecimalGen.map(Json.fromBigDecimal),
+      Gen[Long].map(Json.fromLong),
+      Gen[Double].map(Json.fromDoubleOrNull)
     )
 
   private[this] val jsValuePrimitivesArb: Gen[Json] =
     Gen.oneOf(
-      Gen.value(Json.Empty),
+      Gen.value(Json.Null),
       Gen.value(Json.True),
       Gen.value(Json.False),
       jsonNumberGen,
-      Gen[String].map(Json.string)
+      Gen[String].map(Json.fromString)
     )
 
   private[this] val jsObjectArb1: Gen[JsonObject] =
@@ -42,7 +42,7 @@ abstract class SpecBase extends Scalaprops {
       Gen.tuple2(
         Gen[String], jsValuePrimitivesArb
       )
-    ).map(list => JsonObject.fromIndexedSeq(list.toVector))
+    ).map(list => JsonObject.fromIterable(list))
 
   private[this] val jsArrayArb1: Gen[List[Json]] =
     Gen.listOfN(5, jsValuePrimitivesArb)
@@ -51,14 +51,14 @@ abstract class SpecBase extends Scalaprops {
     Gen.oneOf(
       jsValuePrimitivesArb,
       jsObjectArb1.map(Json.fromJsonObject),
-      jsArrayArb1.map(Json.array)
+      jsArrayArb1.map(Json.arr)
     )
 
   implicit val jsObjectArb: Gen[JsonObject] =
     Gen.listOfN(
       5,
       Gen.tuple2(Gen[String], jsValueArb)
-    ).map(list => JsonObject.fromIndexedSeq(list.toVector))
+    ).map(list => JsonObject.fromIterable(list))
 
   implicit val jsArrayArb: Gen[List[Json]] =
     Gen.listOfN(5, jsValueArb)

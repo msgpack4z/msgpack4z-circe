@@ -15,7 +15,7 @@ final case class CirceUnpackOptions(
 
 object CirceUnpackOptions {
   val binaryToNumberArray: Binary => Json = { bytes =>
-    Json.fromValues(bytes.value.map(byte => Json.long(byte))(collection.breakOut))
+    Json.fromValues(bytes.value.map(byte => Json.fromLong(byte))(collection.breakOut))
   }
 
   val binaryToNumberArrayUnpacker: Unpacker[Json] = { unpacker =>
@@ -25,9 +25,9 @@ object CirceUnpackOptions {
   val extUnpacker: Unpacker[Json] = { unpacker =>
     val header = unpacker.unpackExtTypeHeader
     val data = unpacker.readPayload(header.getLength)
-    val dataArray = Json.fromValues(data.map(byte => Json.long(byte))(collection.breakOut))
+    val dataArray = Json.fromValues(data.map(byte => Json.fromLong(byte))(collection.breakOut))
     val result = Json.obj(
-      ("type", Json.long(header.getType)),
+      ("type", Json.fromLong(header.getType)),
       ("data", dataArray)
     )
     \/-(result)
@@ -35,7 +35,7 @@ object CirceUnpackOptions {
 
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
 
-  private[this] val jNullRight = \/-(Json.Empty)
+  private[this] val jNullRight = \/-(Json.Null)
 
   val default: CirceUnpackOptions = CirceUnpackOptions(
     extUnpacker,

@@ -190,7 +190,7 @@ object CirceMsgpack {
     unpacker.nextType match {
       case MsgType.NIL =>
         unpacker.unpackNil()
-        result.value = Json.Empty
+        result.value = Json.Null
         true
       case MsgType.BOOLEAN =>
         if (unpacker.unpackBoolean()) {
@@ -202,9 +202,9 @@ object CirceMsgpack {
       case MsgType.INTEGER =>
         val value = unpacker.unpackBigInteger()
         if(isValidLong(value)){
-          result.value = Json.long(value.longValue())
+          result.value = Json.fromLong(value.longValue())
         }else{
-          result.value = Json.bigDecimal(BigDecimal(value))
+          result.value = Json.fromBigDecimal(BigDecimal(value))
         }
         true
       case MsgType.FLOAT =>
@@ -216,11 +216,11 @@ object CirceMsgpack {
         }else if(java.lang.Double.isNaN(f)) {
           Result.fromEither(unpackOptions.nan, result)
         }else{
-          result.value = Json.numberOrNull(f)
+          result.value = Json.fromDoubleOrNull(f)
         }
         true
       case MsgType.STRING =>
-        result.value = Json.string(unpacker.unpackString())
+        result.value = Json.fromString(unpacker.unpackString())
         true
       case MsgType.ARRAY =>
         val result0 = Result.empty[List[Json]]
