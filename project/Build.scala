@@ -14,7 +14,7 @@ object build extends Build {
   ).settings(
     name := msgpack4zCirceName,
     libraryDependencies ++= (
-      ("io.circe" %%% "circe-core" % "0.4.1") ::
+      ("io.circe" %%% "circe-core" % "0.5.1") ::
       ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.4") ::
       ("com.github.scalaprops" %%% "scalaprops" % "0.3.3" % "test") ::
       ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.0" % "test") ::
