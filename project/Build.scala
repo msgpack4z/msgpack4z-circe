@@ -14,10 +14,10 @@ object build extends Build {
   ).settings(
     name := msgpack4zCirceName,
     libraryDependencies ++= (
-      ("io.circe" %%% "circe-core" % "0.5.2") ::
-      ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.4") ::
-      ("com.github.scalaprops" %%% "scalaprops" % "0.3.3" % "test") ::
-      ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.0" % "test") ::
+      ("io.circe" %%% "circe-core" % "0.5.4") ::
+      ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.5") ::
+      ("com.github.scalaprops" %%% "scalaprops" % "0.3.4" % "test") ::
+      ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.1" % "test") ::
       Nil
     )
   ).jsSettings(
@@ -28,7 +28,6 @@ object build extends Build {
     },
     scalaJSSemantics ~= { _.withStrictFloats(true) },
     scalaJSStage in Test := FastOptStage,
-    scalaJSUseRhino in Global := false,
     jsEnv := NodeJSEnv().value
   ).jvmSettings(
     libraryDependencies ++= (
