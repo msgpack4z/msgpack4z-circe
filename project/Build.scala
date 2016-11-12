@@ -9,7 +9,7 @@ object build extends Build {
   private val msgpack4zCirceName = "msgpack4z-circe"
   val modules = msgpack4zCirceName :: Nil
 
-  lazy val msgpack4zCirece = CrossProject("msgpack4z-circe", file("."), CustomCrossType).settings(
+  lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."), CustomCrossType).settings(
     Common.settings ++ scalapropsCoreSettings : _*
   ).settings(
     name := msgpack4zCirceName,
@@ -39,8 +39,8 @@ object build extends Build {
     Sxr.settings
   )
 
-  lazy val msgpack4zCireceJS = msgpack4zCirece.js
-  lazy val msgpack4zCireceJVM = msgpack4zCirece.jvm
+  lazy val msgpack4zCirceJS = msgpack4zCirce.js
+  lazy val msgpack4zCirceJVM = msgpack4zCirce.jvm
 
   private val rootId = "root"
 
@@ -58,6 +58,6 @@ object build extends Build {
     scalaSource in Compile := file("dummy"),
     scalaSource in Test := file("dummy")
   ).aggregate(
-    msgpack4zCireceJS, msgpack4zCireceJVM
+    msgpack4zCirceJS, msgpack4zCirceJVM
   )
 }
