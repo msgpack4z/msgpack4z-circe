@@ -36,7 +36,7 @@ object build extends Build {
       Nil
     )
   ).jvmSettings(
-    Sxr.subProjectSxr(Compile, "classes.sxr"): _*
+    Sxr.settings
   )
 
   lazy val msgpack4zCireceJS = msgpack4zCirece.js
