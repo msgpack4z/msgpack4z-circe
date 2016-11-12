@@ -4,7 +4,7 @@ import scalaprops.ScalapropsPlugin.autoImport._
 import org.scalajs.sbtplugin.cross.CrossProject
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
-object build extends Build {
+object build {
 
   private val msgpack4zCirceName = "msgpack4z-circe"
   val modules = msgpack4zCirceName :: Nil
@@ -39,25 +39,4 @@ object build extends Build {
     Sxr.settings
   )
 
-  lazy val msgpack4zCirceJS = msgpack4zCirce.js
-  lazy val msgpack4zCirceJVM = msgpack4zCirce.jvm
-
-  private val rootId = "root"
-
-  lazy val root = Project(rootId, file(".")).settings(
-    Common.settings
-  ).settings(
-    commands += Command.command("testSequential"){
-      projects.map(_.id).filterNot(Set(rootId)).map(_ + "/test").sorted ::: _
-    },
-    PgpKeys.publishLocalSigned := {},
-    PgpKeys.publishSigned := {},
-    publishLocal := {},
-    publish := {},
-    publishArtifact in Compile := false,
-    scalaSource in Compile := file("dummy"),
-    scalaSource in Test := file("dummy")
-  ).aggregate(
-    msgpack4zCirceJS, msgpack4zCirceJVM
-  )
 }
