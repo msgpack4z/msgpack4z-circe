@@ -31,7 +31,7 @@ object build {
     jsEnv := NodeJSEnv().value
   ).jvmSettings(
     libraryDependencies ++= (
-      ("com.github.xuwei-k" % "msgpack4z-java07" % "0.2.0" % "test") ::
+      ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.4" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
       Nil
     )
