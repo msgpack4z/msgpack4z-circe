@@ -31,5 +31,5 @@ env:
   - secure: ORQ1onHmpekGzEmch1aTAg1A6gvxddv5Bf2rOewb1d91oDnA3inA/97xgpVwSTEQufa0270v5uTMpIS15bdwWjW+dSTjVh6/o/lfrTipsJKyKEqSqKOWg1fuyXckdR+5Ha/fgWt1U4ZHggVPkTBLGQRYDpWAoEVN38iJUjWScsJYE97WE55Cc5zg5oacXN0nfMNUNK1FBFwOILtumw7IGKBLSB/CtKtm+Ay+RizJZppOMe3feXy9SQXyn3PTgqyQ2yftTF/01ndjo9lafcSlT5yIYGG1NqAOMhKgCTk/Ey6Ojof3exzt1mnF4eh1vAfZCPPAwq7/3vQNHjjiwToJ9x3eegWvlzCl32a39kDTyaGG8pZz/yBHrk6CYPak+eVPiod8VhPfrea6sfmnmTdpbdTpr/Igv1Vlnimh4Bu0adeMZzYbKJSqBIlQn2Jpdt4wikN2j7fWwmhT1tSixcF+2/lgC1uima+9q+nyQBVSSQTlkaXDfTsvLAUiS28WSao6yivTxcOSgjBVPbiYbaLv6bhtkKhHDTrwvKbVsXszWYi10H4JDaGaKMg8GGI9MGr3oxW2MUAkMUfaC5uoU8nqgV9K2gXxmi43zEO8tcnsmhSj3vuwjeBSVBqkQBBototr7TZiolugvg4yiywz3evi1TlsXwDGi5LmjtV9Kys2/Ug=
 matrix:
   include:
-  - scala: "2.12.0"
+  - scala: "2.12.1"
     jdk: oraclejdk8
