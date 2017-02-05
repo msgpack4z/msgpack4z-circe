@@ -26,8 +26,7 @@ object Common {
   private[this] val scala211 = "2.11.8"
 
   val settings = Seq(
-    ReleasePlugin.extraReleaseCommands,
-    sonatypeSettings
+    ReleasePlugin.extraReleaseCommands
   ).flatten ++ Seq(
     resolvers += Opts.resolver.sonatypeReleases,
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
@@ -51,9 +50,7 @@ object Common {
       ),
       setNextVersion,
       commitNextVersion,
-      ReleaseStep(state =>
-        Project.extract(state).runTask(SonatypeKeys.sonatypeReleaseAll, state)._1
-      ),
+      releaseStepCommand("sonatypeReleaseAll"),
       UpdateReadme.updateReadmeProcess,
       pushChanges
     ),

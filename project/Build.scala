@@ -16,7 +16,7 @@ object build {
     libraryDependencies ++= (
       ("io.circe" %%% "circe-core" % "0.7.0") ::
       ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.5") ::
-      ("com.github.scalaprops" %%% "scalaprops" % "0.3.4" % "test") ::
+      ("com.github.scalaprops" %%% "scalaprops" % "0.4.0" % "test") ::
       ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.1" % "test") ::
       Nil
     )
