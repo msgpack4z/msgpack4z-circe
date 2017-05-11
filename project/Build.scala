@@ -27,8 +27,7 @@ object build {
       s"-P:scalajs:mapSourceURI:$a->$g/"
     },
     scalaJSSemantics ~= { _.withStrictFloats(true) },
-    scalaJSStage in Test := FastOptStage,
-    jsEnv := NodeJSEnv().value
+    scalaJSStage in Test := FastOptStage
   ).jvmSettings(
     libraryDependencies ++= (
       ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.4" % "test") ::
