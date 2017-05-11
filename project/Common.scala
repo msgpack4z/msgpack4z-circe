@@ -23,7 +23,7 @@ object Common {
     Nil
   )
 
-  private[this] val scala211 = "2.11.8"
+  private[this] val scala211 = "2.11.11"
 
   val settings = Seq(
     ReleasePlugin.extraReleaseCommands
