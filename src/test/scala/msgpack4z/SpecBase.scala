@@ -4,16 +4,20 @@ import io.circe._
 import scalaprops._
 import scalaz.{-\/, Equal, \/-}
 import CirceMsgpack.{circeJsonEqual, circeJsonObjectEqual}
+import java.lang.Double.doubleToLongBits
 
 abstract class SpecBase extends Scalaprops {
 
-  private[this] implicit val scalaDoubleGen: Gen[Double] =
+  private[this] implicit val scalaDoubleGen: Gen[Double] = {
+    val minusZero = doubleToLongBits(-0.0)
     Gen[Long].map { n =>
       java.lang.Double.longBitsToDouble(n) match {
         case x if x.isNaN => n
+        case _ if n == minusZero => 0.0
         case x => x
       }
     }
+  }
 
   private[this] implicit val bigDecimalGen: Gen[BigDecimal] =
     Gen[Double].map(BigDecimal(_))
