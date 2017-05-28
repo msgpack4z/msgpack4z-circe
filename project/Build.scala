@@ -10,8 +10,8 @@ object build {
   val modules = msgpack4zCirceName :: Nil
 
   lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."), CustomCrossType).settings(
-    Common.settings ++ scalapropsCoreSettings : _*
-  ).settings(
+    Common.settings,
+    scalapropsCoreSettings,
     name := msgpack4zCirceName,
     libraryDependencies ++= (
       ("io.circe" %%% "circe-core" % "0.8.0") ::
@@ -33,8 +33,7 @@ object build {
       ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.5" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
       Nil
-    )
-  ).jvmSettings(
+    ),
     Sxr.settings
   )
 
