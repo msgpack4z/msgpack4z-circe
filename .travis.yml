@@ -9,7 +9,7 @@ cache:
 scala:
 - "2.11.11"
 jdk:
-  - oraclejdk7
+  - openjdk7
   - oraclejdk8
 script:
   - git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
