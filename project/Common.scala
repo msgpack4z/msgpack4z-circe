@@ -28,6 +28,12 @@ object Common {
   val settings = Seq(
     ReleasePlugin.extraReleaseCommands
   ).flatten ++ Seq(
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
     resolvers += Opts.resolver.sonatypeReleases,
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
@@ -73,7 +79,7 @@ object Common {
       Nil
     ) ::: unusedWarnings,
     scalaVersion := scala211,
-    crossScalaVersions := "2.12.3" :: scala211 :: Nil,
+    crossScalaVersions := "2.12.4" :: scala211 :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = tagOrHash.value
       Seq(
