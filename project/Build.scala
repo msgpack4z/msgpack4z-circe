@@ -14,7 +14,7 @@ object build {
     scalapropsCoreSettings,
     name := msgpack4zCirceName,
     libraryDependencies ++= (
-      ("io.circe" %%% "circe-core" % "0.9.0-M2") ::
+      ("io.circe" %%% "circe-core" % "0.9.0") ::
       ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.7") ::
       ("com.github.scalaprops" %%% "scalaprops" % "0.5.2" % "test") ::
       ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.3" % "test") ::
