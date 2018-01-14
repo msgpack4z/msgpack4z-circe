@@ -2,10 +2,10 @@
 
 [![Build Status](https://secure.travis-ci.org/msgpack4z/msgpack4z-circe.png?branch=master)](http://travis-ci.org/msgpack4z/msgpack4z-circe)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.xuwei-k/msgpack4z-circe_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.xuwei-k/msgpack4z-circe_2.12)
-[![scaladoc](http://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-circe_2.12.svg?label=scaladoc)](http://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-circe_2.12/msgpack4z/index.html?javadocio=true)
+[![scaladoc](https://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-circe_2.12.svg?label=scaladoc)](https://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-circe_2.12/msgpack4z/index.html?javadocio=true)
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-0.6.14.svg)](https://www.scala-js.org)
 
-- <http://msgpack.org/>
+- <https://msgpack.org/>
 - <https://github.com/msgpack/msgpack/blob/master/spec.md>
 
 ### latest stable version
