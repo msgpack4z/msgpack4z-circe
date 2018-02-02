@@ -8,8 +8,8 @@ cache:
   - $HOME/.sbt/launchers
 scala:
 - "2.11.11"
+- "2.12.4"
 jdk:
-  - openjdk7
   - oraclejdk8
 script:
   - git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
@@ -29,7 +29,3 @@ env:
   global:
   - secure: Sk81joeRLHsRgObndhSuWsnd0+eG0rZCOz3SEGi3NyS2KqQPonjNZ45yYszeKSdq74UAvED0NiByCv8Z1wqOEgkCM7MZ2LCVhAC/+tujJWXbqORH4z/nKxpOl9XbNzh9EggZdpy+CiQVKHcEzbH8Ka2PkY1wao4h6/KdLW4o0LE2L/qtpxTD8yr7Deep712lutv0O7JdwlplJCvVomIXVFrPRRi++IfDjwMfK3Rpp6rs1NA2ZjC4HhVmRhVqarUnp6sPKgg+4iegv6r08L0okyCwEGrTOPvNg7EQfiz0EqpgeieRSkMW/+Oh6d4lxQfBKSgWeuLR29QpPLdmYYS3GsIGVr/bCQU4gB85GcmDhr+1hxfgg1zX38bWRB6vVaudmME5iejV9rsOHh2wzPkhEmJVYKdopc+0YbB/g+WfAi5TElRIAsSMf1D9bqcfJyjfgDh1zDrEZyzHu+EAmuXWrPmwd7MSTjv0hbkbq/fmgRsH/Dk6HmoFz8AE9kRn07p1WxyL559OuUvuf0crFfQTamSP5WmCF/6Bik5tC1QggSgPCr/CpqkwnuHq1UnVHjL2lxmloYGgo2DHLxgOh/aTsz5Yf19XAyq4qyrM8HqTGQYQpv4w2zaJKEhAlM8zb2EXq0KHqZMcHp3a+i6k59jXqIQBBc3tCh0BEnTpuv9ycYU=
   - secure: ORQ1onHmpekGzEmch1aTAg1A6gvxddv5Bf2rOewb1d91oDnA3inA/97xgpVwSTEQufa0270v5uTMpIS15bdwWjW+dSTjVh6/o/lfrTipsJKyKEqSqKOWg1fuyXckdR+5Ha/fgWt1U4ZHggVPkTBLGQRYDpWAoEVN38iJUjWScsJYE97WE55Cc5zg5oacXN0nfMNUNK1FBFwOILtumw7IGKBLSB/CtKtm+Ay+RizJZppOMe3feXy9SQXyn3PTgqyQ2yftTF/01ndjo9lafcSlT5yIYGG1NqAOMhKgCTk/Ey6Ojof3exzt1mnF4eh1vAfZCPPAwq7/3vQNHjjiwToJ9x3eegWvlzCl32a39kDTyaGG8pZz/yBHrk6CYPak+eVPiod8VhPfrea6sfmnmTdpbdTpr/Igv1Vlnimh4Bu0adeMZzYbKJSqBIlQn2Jpdt4wikN2j7fWwmhT1tSixcF+2/lgC1uima+9q+nyQBVSSQTlkaXDfTsvLAUiS28WSao6yivTxcOSgjBVPbiYbaLv6bhtkKhHDTrwvKbVsXszWYi10H4JDaGaKMg8GGI9MGr3oxW2MUAkMUfaC5uoU8nqgV9K2gXxmi43zEO8tcnsmhSj3vuwjeBSVBqkQBBototr7TZiolugvg4yiywz3evi1TlsXwDGi5LmjtV9Kys2/Ug=
-matrix:
-  include:
-  - scala: "2.12.4"
-    jdk: oraclejdk8
