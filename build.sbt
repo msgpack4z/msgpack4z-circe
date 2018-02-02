@@ -7,7 +7,7 @@ val root = Project("root", file(".")).settings(
   Common.settings
 ).settings(
   commands += Command.command("testSequential"){
-    Seq(msgpack4zCirceJVM, msgpack4zCirceJS).map(_.id + "/test") ::: _
+    List(msgpack4zCirceJVM, msgpack4zCirceJS).map(_.id + "/test") ::: _
   },
   PgpKeys.publishLocalSigned := {},
   PgpKeys.publishSigned := {},

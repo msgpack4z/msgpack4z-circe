@@ -1,5 +1,4 @@
 import sbt._, Keys._
-import com.typesafe.sbt.pgp.PgpKeys
 import scalaprops.ScalapropsPlugin.autoImport._
 import org.scalajs.sbtplugin.cross.CrossProject
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._

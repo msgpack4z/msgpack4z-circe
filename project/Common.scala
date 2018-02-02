@@ -2,7 +2,6 @@ import sbt._, Keys._
 import sbtrelease.ReleasePlugin
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.ReleasePlugin.autoImport._
-import xerial.sbt.Sonatype._
 import com.typesafe.sbt.pgp.PgpKeys
 
 object Common {
@@ -15,7 +14,7 @@ object Common {
   }
 
   private def gitHash(): String =
-    sys.process.Process("git rev-parse HEAD").lines_!.head
+    sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
   private[this] val unusedWarnings = (
     "-Ywarn-unused" ::
