@@ -1,5 +1,6 @@
 import sbt._, Keys._
 import scalaprops.ScalapropsPlugin.autoImport._
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import org.scalajs.sbtplugin.cross.CrossProject
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
