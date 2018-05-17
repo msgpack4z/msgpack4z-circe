@@ -14,10 +14,10 @@ object build {
     scalapropsCoreSettings,
     name := msgpack4zCirceName,
     libraryDependencies ++= (
-      ("io.circe" %%% "circe-core" % "0.9.2") ::
-      ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.8") ::
-      ("com.github.scalaprops" %%% "scalaprops" % "0.5.3" % "test") ::
-      ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.4" % "test") ::
+      ("io.circe" %%% "circe-core" % "0.9.3") ::
+      ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.9") ::
+      ("com.github.scalaprops" %%% "scalaprops" % "0.5.5" % "test") ::
+      ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.5" % "test") ::
       Nil
     )
   ).jsSettings(
