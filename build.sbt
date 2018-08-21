@@ -88,11 +88,10 @@ val commonSettings = Def.settings(
     "-language:existentials" ::
     "-language:higherKinds" ::
     "-language:implicitConversions" ::
-    "-Yno-adapted-args" ::
     Nil
   ) ::: unusedWarnings,
   scalaVersion := scala211,
-  crossScalaVersions := "2.12.6" :: scala211 :: Nil,
+  crossScalaVersions := "2.12.6" :: scala211 :: "2.13.0-M4" :: Nil,
   scalacOptions in (Compile, doc) ++= {
     val tag = tagOrHash.value
     Seq(
@@ -130,14 +129,24 @@ val commonSettings = Def.settings(
   )
 )
 
+lazy val circeVersion = settingKey[String]("")
+
 lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform, JSPlatform)
   .crossType(CustomCrossType)
   .settings(
     commonSettings,
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
+    circeVersion := {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, v)) if v >= 13 =>
+          "0.10.0-M2"
+        case _ =>
+          "0.9.3"
+      }
+    },
     libraryDependencies ++= (
-      ("io.circe" %%% "circe-core" % "0.9.3") ::
+      ("io.circe" %%% "circe-core" % circeVersion.value) ::
       ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.9") ::
       ("com.github.scalaprops" %%% "scalaprops" % "0.5.5" % "test") ::
       ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.5" % "test") ::
