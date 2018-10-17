@@ -21,11 +21,6 @@ before_cache:
   - find $HOME/.ivy2/cache -name "ivydata-*.properties" | xargs rm
   - find $HOME/.ivy2/cache -name "*SNAPSHOT*" | xargs rm -rf
 
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-
 env:
   global:
   - secure: Sk81joeRLHsRgObndhSuWsnd0+eG0rZCOz3SEGi3NyS2KqQPonjNZ45yYszeKSdq74UAvED0NiByCv8Z1wqOEgkCM7MZ2LCVhAC/+tujJWXbqORH4z/nKxpOl9XbNzh9EggZdpy+CiQVKHcEzbH8Ka2PkY1wao4h6/KdLW4o0LE2L/qtpxTD8yr7Deep712lutv0O7JdwlplJCvVomIXVFrPRRi++IfDjwMfK3Rpp6rs1NA2ZjC4HhVmRhVqarUnp6sPKgg+4iegv6r08L0okyCwEGrTOPvNg7EQfiz0EqpgeieRSkMW/+Oh6d4lxQfBKSgWeuLR29QpPLdmYYS3GsIGVr/bCQU4gB85GcmDhr+1hxfgg1zX38bWRB6vVaudmME5iejV9rsOHh2wzPkhEmJVYKdopc+0YbB/g+WfAi5TElRIAsSMf1D9bqcfJyjfgDh1zDrEZyzHu+EAmuXWrPmwd7MSTjv0hbkbq/fmgRsH/Dk6HmoFz8AE9kRn07p1WxyL559OuUvuf0crFfQTamSP5WmCF/6Bik5tC1QggSgPCr/CpqkwnuHq1UnVHjL2lxmloYGgo2DHLxgOh/aTsz5Yf19XAyq4qyrM8HqTGQYQpv4w2zaJKEhAlM8zb2EXq0KHqZMcHp3a+i6k59jXqIQBBc3tCh0BEnTpuv9ycYU=
