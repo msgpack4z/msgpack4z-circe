@@ -137,7 +137,7 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
     commonSettings,
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
-    circeVersion := "0.10.0",
+    circeVersion := "0.10.1",
     libraryDependencies ++= (
       ("io.circe" %%% "circe-core" % circeVersion.value) ::
       ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.9") ::
