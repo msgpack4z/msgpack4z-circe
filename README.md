@@ -19,9 +19,9 @@ libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.8.0"
 ### snapshot version
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.7.1-SNAPSHOT"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.8.1-SNAPSHOT"
 
 resolvers += Opts.resolver.sonatypeSnapshots
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-circe_2.11/0.7.1-SNAPSHOT/msgpack4z-circe_2.11-0.7.1-SNAPSHOT-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-circe_2.11/0.8.1-SNAPSHOT/msgpack4z-circe_2.11-0.8.1-SNAPSHOT-sxr.jar/!/index.html)
