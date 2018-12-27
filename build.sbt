@@ -21,19 +21,18 @@ val CustomCrossType = new sbtcrossproject.CrossType {
     Some(shared(projectBase, conf))
 }
 
-val tagName = Def.setting{
+val tagName = Def.setting {
   s"v${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}"
 }
-val tagOrHash = Def.setting{
-  if(isSnapshot.value) gitHash() else tagName.value
+val tagOrHash = Def.setting {
+  if (isSnapshot.value) gitHash() else tagName.value
 }
 
 def gitHash(): String =
   sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
-val unusedWarnings = (
-  "-Ywarn-unused:imports" ::
-  Nil
+val unusedWarnings = Seq(
+  "-Ywarn-unused:imports",
 )
 
 val scala211 = "2.11.12"
@@ -47,7 +46,7 @@ val commonSettings = Def.settings(
       Opts.resolver.sonatypeStaging
   ),
   resolvers += Opts.resolver.sonatypeReleases,
-  fullResolvers ~= {_.filterNot(_.name == "jcenter")},
+  fullResolvers ~= { _.filterNot(_.name == "jcenter") },
   commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
   releaseTagName := tagName.value,
   releaseProcess := Seq[ReleaseStep](
@@ -72,23 +71,24 @@ val commonSettings = Def.settings(
     UpdateReadme.updateReadmeProcess,
     pushChanges
   ),
-  credentials ++= PartialFunction.condOpt(sys.env.get("SONATYPE_USER") -> sys.env.get("SONATYPE_PASS")){
-    case (Some(user), Some(pass)) =>
-      Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", user, pass)
-  }.toList,
+  credentials ++= PartialFunction
+    .condOpt(sys.env.get("SONATYPE_USER") -> sys.env.get("SONATYPE_PASS")) {
+      case (Some(user), Some(pass)) =>
+        Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", user, pass)
+    }
+    .toList,
   organization := "com.github.xuwei-k",
   homepage := Some(url("https://github.com/msgpack4z")),
   licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
-  scalacOptions ++= (
-    "-target:jvm-1.8" ::
-    "-deprecation" ::
-    "-unchecked" ::
-    "-Xlint" ::
-    "-Xfuture" ::
-    "-language:existentials" ::
-    "-language:higherKinds" ::
-    "-language:implicitConversions" ::
-    Nil
+  scalacOptions ++= Seq(
+    "-target:jvm-1.8",
+    "-deprecation",
+    "-unchecked",
+    "-Xlint",
+    "-Xfuture",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
@@ -103,8 +103,10 @@ val commonSettings = Def.settings(
   scalacOptions in (Compile, doc) ++= {
     val tag = tagOrHash.value
     Seq(
-      "-sourcepath", (baseDirectory in LocalRootProject).value.getAbsolutePath,
-      "-doc-source-url", s"https://github.com/msgpack4z/msgpack4z-circe/tree/${tag}€{FILE_PATH}.scala"
+      "-sourcepath",
+      (baseDirectory in LocalRootProject).value.getAbsolutePath,
+      "-doc-source-url",
+      s"https://github.com/msgpack4z/msgpack4z-circe/tree/${tag}€{FILE_PATH}.scala"
     )
   },
   pomExtra :=
@@ -119,8 +121,7 @@ val commonSettings = Def.settings(
       <url>git@github.com:msgpack4z/msgpack4z-circe.git</url>
       <connection>scm:git:git@github.com:msgpack4z/msgpack4z-circe.git</connection>
       <tag>{tagOrHash.value}</tag>
-    </scm>
-  ,
+    </scm>,
   description := "msgpack4z circe binding",
   pomPostProcess := { node =>
     import scala.xml._
@@ -129,12 +130,12 @@ val commonSettings = Def.settings(
       override def transform(n: Node) =
         if (f(n)) NodeSeq.Empty else n
     }
-    val stripTestScope = stripIf { n => n.label == "dependency" && (n \ "scope").text == "test" }
+    val stripTestScope = stripIf { n =>
+      n.label == "dependency" && (n \ "scope").text == "test"
+    }
     new RuleTransformer(stripTestScope).transform(node)(0)
   },
-  Seq(Compile, Test).flatMap(c =>
-    scalacOptions in (c, console) --= unusedWarnings
-  )
+  Seq(Compile, Test).flatMap(c => scalacOptions in (c, console) --= unusedWarnings)
 )
 
 lazy val circeVersion = settingKey[String]("")
@@ -146,14 +147,14 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
     circeVersion := "0.11.0",
-    libraryDependencies ++= (
-      ("io.circe" %%% "circe-core" % circeVersion.value) ::
-      ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.9") ::
-      ("com.github.scalaprops" %%% "scalaprops" % "0.5.5" % "test") ::
-      ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.5" % "test") ::
-      Nil
+    libraryDependencies ++= Seq(
+      "io.circe" %%% "circe-core" % circeVersion.value,
+      "com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.9",
+      "com.github.scalaprops" %%% "scalaprops" % "0.5.5" % "test",
+      "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.5" % "test",
     )
-  ).jsSettings(
+  )
+  .jsSettings(
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
       val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-circe/" + tagOrHash.value
@@ -161,11 +162,11 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
     },
     scalaJSSemantics ~= { _.withStrictFloats(true) },
     scalaJSStage in Test := FastOptStage
-  ).jvmSettings(
-    libraryDependencies ++= (
-      ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.5" % "test") ::
-      ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
-      Nil
+  )
+  .jvmSettings(
+    libraryDependencies ++= Seq(
+      "com.github.xuwei-k" % "msgpack4z-java" % "0.3.5" % "test",
+      "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
     ),
     Sxr.settings
   )
@@ -173,19 +174,21 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
 val msgpack4zCirceJS = msgpack4zCirce.js
 val msgpack4zCirceJVM = msgpack4zCirce.jvm
 
-val root = Project("root", file(".")).settings(
-  commonSettings
-).settings(
-  commands += Command.command("testSequential"){
-    List(msgpack4zCirceJVM, msgpack4zCirceJS).map(_.id + "/test") ::: _
-  },
-  PgpKeys.publishLocalSigned := {},
-  PgpKeys.publishSigned := {},
-  publishLocal := {},
-  publish := {},
-  publishArtifact in Compile := false,
-  scalaSource in Compile := file("dummy"),
-  scalaSource in Test := file("dummy")
-).aggregate(
-  msgpack4zCirceJS, msgpack4zCirceJVM
-)
+val root = Project("root", file("."))
+  .settings(
+    commonSettings,
+    commands += Command.command("testSequential") {
+      List(msgpack4zCirceJVM, msgpack4zCirceJS).map(_.id + "/test") ::: _
+    },
+    PgpKeys.publishLocalSigned := {},
+    PgpKeys.publishSigned := {},
+    publishLocal := {},
+    publish := {},
+    publishArtifact in Compile := false,
+    scalaSource in Compile := file("dummy"),
+    scalaSource in Test := file("dummy")
+  )
+  .aggregate(
+    msgpack4zCirceJS,
+    msgpack4zCirceJVM
+  )

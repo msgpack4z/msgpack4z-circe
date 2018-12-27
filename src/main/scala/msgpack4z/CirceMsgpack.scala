@@ -38,7 +38,6 @@ object CirceMsgpack {
     packer.arrayEnd()
   }
 
-
   def json2msgpack(packer: MsgPacker, json: Json): Unit = {
     json.fold(
       jsonNull = {
@@ -104,10 +103,11 @@ object CirceMsgpack {
   }
 
   private[this] final case class Result[A](
-    var value: A, var error: UnpackError
+    var value: A,
+    var error: UnpackError
   )
   private[this] object Result {
-    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean = e match{
+    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean = e match {
       case \/-(r) =>
         result.value = r
         true
@@ -127,20 +127,20 @@ object CirceMsgpack {
     var success = true
 
     def process(key: String): Unit = {
-     if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
-       obj = obj.add(key, mapElem.value)
-       i += 1
-     } else {
-       result.error = mapElem.error
-       success = false
-     }
+      if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
+        obj = obj.add(key, mapElem.value)
+        i += 1
+      } else {
+        result.error = mapElem.error
+        success = false
+      }
     }
 
     while (i < size && success) {
       val tpe = unpacker.nextType()
-      if(tpe == MsgType.STRING) {
+      if (tpe == MsgType.STRING) {
         process(unpacker.unpackString())
-      }else{
+      } else {
         unpackOptions.nonStringKey(tpe, unpacker) match {
           case Some(key) =>
             process(key)
@@ -201,21 +201,21 @@ object CirceMsgpack {
         true
       case MsgType.INTEGER =>
         val value = unpacker.unpackBigInteger()
-        if(isValidLong(value)){
+        if (isValidLong(value)) {
           result.value = Json.fromLong(value.longValue())
-        }else{
+        } else {
           result.value = Json.fromBigDecimal(BigDecimal(value))
         }
         true
       case MsgType.FLOAT =>
         val f = unpacker.unpackDouble()
-        if(f.isPosInfinity){
+        if (f.isPosInfinity) {
           Result.fromEither(unpackOptions.positiveInf, result)
-        }else if(f.isNegInfinity){
+        } else if (f.isNegInfinity) {
           Result.fromEither(unpackOptions.negativeInf, result)
-        }else if(java.lang.Double.isNaN(f)) {
+        } else if (java.lang.Double.isNaN(f)) {
           Result.fromEither(unpackOptions.nan, result)
-        }else{
+        } else {
           result.value = Json.fromDoubleOrNull(f)
         }
         true
@@ -242,12 +242,14 @@ object CirceMsgpack {
   }
 }
 
-private final class CodecCirceJson(unpackOptions: CirceUnpackOptions) extends MsgpackCodecConstant[Json](
-  CirceMsgpack.json2msgpack,
-  unpacker => CirceMsgpack.msgpack2json(unpacker, unpackOptions)
-)
+private final class CodecCirceJson(unpackOptions: CirceUnpackOptions)
+  extends MsgpackCodecConstant[Json](
+    CirceMsgpack.json2msgpack,
+    unpacker => CirceMsgpack.msgpack2json(unpacker, unpackOptions)
+  )
 
-private final class CodecCirceJsonObject(unpackOptions: CirceUnpackOptions) extends MsgpackCodecConstant[JsonObject](
-  CirceMsgpack.jsonObject2msgpack,
-  unpacker => CirceMsgpack.msgpack2jsonObject(unpacker, unpackOptions)
-)
+private final class CodecCirceJsonObject(unpackOptions: CirceUnpackOptions)
+  extends MsgpackCodecConstant[JsonObject](
+    CirceMsgpack.jsonObject2msgpack,
+    unpacker => CirceMsgpack.msgpack2jsonObject(unpacker, unpackOptions)
+  )

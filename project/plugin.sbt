@@ -4,15 +4,15 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.3")
 addSbtPlugin("com.github.scalaprops" % "sbt-scalaprops" % "0.2.6")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.26")
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.6.0")
+addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "1.6.0-RC4")
 
-scalacOptions ++= (
-  "-deprecation" ::
-  "-unchecked" ::
-  "-language:existentials" ::
-  "-language:higherKinds" ::
-  "-language:implicitConversions" ::
-  "-Yno-adapted-args" ::
-  Nil
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-unchecked",
+  "-language:existentials",
+  "-language:higherKinds",
+  "-language:implicitConversions",
+  "-Yno-adapted-args",
 )
 
-fullResolvers ~= {_.filterNot(_.name == "jcenter")}
+fullResolvers ~= { _.filterNot(_.name == "jcenter") }
