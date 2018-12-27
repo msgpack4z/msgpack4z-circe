@@ -9,7 +9,7 @@ cache:
 scala:
 - "2.11.12"
 - "2.12.8"
-- "2.13.0-M4"
+- "2.13.0-M5"
 jdk:
   - oraclejdk8
 script:

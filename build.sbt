@@ -91,7 +91,7 @@ val commonSettings = Def.settings(
     Nil
   ) ::: unusedWarnings,
   scalaVersion := scala211,
-  crossScalaVersions := "2.12.8" :: scala211 :: "2.13.0-M4" :: Nil,
+  crossScalaVersions := "2.12.8" :: scala211 :: "2.13.0-M5" :: Nil,
   scalacOptions in (Compile, doc) ++= {
     val tag = tagOrHash.value
     Seq(
@@ -137,7 +137,7 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
     commonSettings,
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
-    circeVersion := "0.10.1",
+    circeVersion := "0.11.0",
     libraryDependencies ++= (
       ("io.circe" %%% "circe-core" % circeVersion.value) ::
       ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.9") ::
