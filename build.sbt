@@ -32,7 +32,7 @@ def gitHash(): String =
   sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
 val unusedWarnings = (
-  "-Ywarn-unused" ::
+  "-Ywarn-unused:imports" ::
   Nil
 )
 
@@ -89,7 +89,15 @@ val commonSettings = Def.settings(
     "-language:higherKinds" ::
     "-language:implicitConversions" ::
     Nil
-  ) ::: unusedWarnings,
+  ),
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, 11)) =>
+        Nil
+      case _ =>
+        unusedWarnings
+    }
+  },
   scalaVersion := scala211,
   crossScalaVersions := "2.12.8" :: scala211 :: "2.13.0-M5" :: Nil,
   scalacOptions in (Compile, doc) ++= {
