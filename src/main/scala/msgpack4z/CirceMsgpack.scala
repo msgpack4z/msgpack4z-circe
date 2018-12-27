@@ -54,8 +54,8 @@ object CirceMsgpack {
           case None =>
             value.toBigDecimal match {
               case Some(b) =>
-                if (b.isWhole() && Long.MinValue <= b && b < BigDecimalLongMax2x) {
-                  packer.packBigInteger(b.underlying().toBigIntegerExact)
+                if (b.isWhole && Long.MinValue <= b && b < BigDecimalLongMax2x) {
+                  packer.packBigInteger(b.underlying.toBigIntegerExact)
                 } else {
                   packer.packDouble(value.toDouble)
                 }
