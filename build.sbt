@@ -106,7 +106,7 @@ val commonSettings = Def.settings(
     }
   },
   scalaVersion := scala211,
-  crossScalaVersions := "2.12.8" :: scala211 :: "2.13.0-RC1" :: Nil,
+  crossScalaVersions := "2.12.8" :: scala211 :: "2.13.0" :: Nil,
   scalacOptions in (Compile, doc) ++= {
     val tag = tagOrHash.value
     Seq(
@@ -156,7 +156,7 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
     circeVersion := {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, v)) if v >= 13 =>
-          "0.12.0-M1"
+          "0.12.0-M3"
         case _ =>
           "0.11.1"
       }
