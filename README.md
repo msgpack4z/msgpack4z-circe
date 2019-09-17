@@ -11,10 +11,10 @@
 ### latest stable version
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.9.0-M1"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.9.0"
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-circe_2.11/0.9.0-M1/msgpack4z-circe_2.11-0.9.0-M1-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-circe_2.11/0.9.0/msgpack4z-circe_2.11-0.9.0-sxr.jar/!/index.html)
 
 ### snapshot version
 
