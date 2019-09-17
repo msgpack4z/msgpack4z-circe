@@ -2,6 +2,8 @@ import sbtrelease.ReleaseStateTransformations._
 import com.typesafe.sbt.pgp.PgpKeys
 import sbtcrossproject.CrossProject
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 val CustomCrossType = new sbtcrossproject.CrossType {
   override def projectDir(crossBase: File, projectType: String) =
     crossBase / projectType
