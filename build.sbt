@@ -39,12 +39,7 @@ val scala212 = "2.12.10"
 
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
-  publishTo := Some(
-    if (isSnapshot.value)
-      Opts.resolver.sonatypeSnapshots
-    else
-      Opts.resolver.sonatypeStaging
-  ),
+  publishTo := sonatypePublishToBundle.value,
   fullResolvers ~= { _.filterNot(_.name == "jcenter") },
   commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
   releaseTagName := tagName.value,
@@ -64,9 +59,9 @@ val commonSettings = Def.settings(
       },
       enableCrossBuild = true
     ),
+    releaseStepCommand("sonatypeBundleRelease"),
     setNextVersion,
     commitNextVersion,
-    releaseStepCommand("sonatypeReleaseAll"),
     UpdateReadme.updateReadmeProcess,
     pushChanges
   ),
