@@ -154,7 +154,7 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
         case Some((2, v)) if v <= 11 =>
           "0.12.0-M3"
         case _ =>
-          "0.12.1" // circe 0.12 dropped Scala 2.11 https://github.com/circe/circe/pull/1176
+          "0.12.2" // circe 0.12 dropped Scala 2.11 https://github.com/circe/circe/pull/1176
       }
     },
     libraryDependencies ++= Seq(
