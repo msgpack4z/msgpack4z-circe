@@ -7,7 +7,6 @@ import CirceMsgpack.{circeJsonEqual, circeJsonObjectEqual}
 import java.lang.Double.doubleToLongBits
 
 abstract class SpecBase extends Scalaprops {
-
   private[this] implicit val scalaDoubleGen: Gen[Double] = {
     val minusZero = doubleToLongBits(-0.0)
     Gen[Long].map { n =>
