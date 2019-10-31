@@ -4,7 +4,6 @@ import io.circe._
 import scalaz.{-\/, \/, \/-, Equal}
 
 object CirceMsgpack {
-
   implicit val circeJsonEqual: Equal[Json] = Equal.equalA[Json]
   implicit val circeJsonObjectEqual: Equal[JsonObject] = Equal.equalA[JsonObject]
   implicit val circeJsonNumberEqual: Equal[JsonNumber] = Equal.equalA[JsonNumber]
