@@ -95,16 +95,9 @@ val commonSettings = Def.settings(
         Nil
     }
   },
-  scalacOptions ++= {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 11)) =>
-        Nil
-      case _ =>
-        unusedWarnings
-    }
-  },
+  scalacOptions ++= unusedWarnings,
   scalaVersion := scala212,
-  crossScalaVersions := "2.11.12" :: scala212 :: "2.13.1" :: Nil,
+  crossScalaVersions := scala212 :: "2.13.1" :: Nil,
   scalacOptions in (Compile, doc) ++= {
     val tag = tagOrHash.value
     Seq(
@@ -143,24 +136,14 @@ val commonSettings = Def.settings(
   Seq(Compile, Test).flatMap(c => scalacOptions in (c, console) --= unusedWarnings)
 )
 
-lazy val circeVersion = settingKey[String]("")
-
 lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform, JSPlatform)
   .crossType(CustomCrossType)
   .settings(
     commonSettings,
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
-    circeVersion := {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, v)) if v <= 11 =>
-          "0.12.0-M3"
-        case _ =>
-          defaultCirceVersion // circe 0.12 dropped Scala 2.11 https://github.com/circe/circe/pull/1176
-      }
-    },
     libraryDependencies ++= Seq(
-      "io.circe" %%% "circe-core" % circeVersion.value,
+      "io.circe" %%% "circe-core" % "0.13.0",
       "com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.11",
       "com.github.scalaprops" %%% "scalaprops" % "0.6.3" % "test",
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.6" % "test",
