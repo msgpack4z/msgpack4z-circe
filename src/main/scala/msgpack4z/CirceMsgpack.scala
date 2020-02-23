@@ -31,9 +31,7 @@ object CirceMsgpack {
 
   def jsonArray2msgpack(packer: MsgPacker, array: Seq[Json]): Unit = {
     packer.packArrayHeader(array.size)
-    array.foreach { x =>
-      json2msgpack(packer, x)
-    }
+    array.foreach { x => json2msgpack(packer, x) }
     packer.arrayEnd()
   }
 
