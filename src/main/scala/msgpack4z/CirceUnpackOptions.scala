@@ -14,13 +14,9 @@ final case class CirceUnpackOptions(
 )
 
 object CirceUnpackOptions {
-  val binaryToNumberArray: Binary => Json = { bytes =>
-    Json.fromValues(bytes.value.iterator.map(byte => Json.fromLong(byte)).toSeq)
-  }
+  val binaryToNumberArray: Binary => Json = { bytes => Json.fromValues(bytes.value.iterator.map(byte => Json.fromLong(byte)).toSeq) }
 
-  val binaryToNumberArrayUnpacker: Unpacker[Json] = { unpacker =>
-    CodecInstances.binary.binaryCodec.unpack(unpacker).map(binaryToNumberArray)
-  }
+  val binaryToNumberArrayUnpacker: Unpacker[Json] = { unpacker => CodecInstances.binary.binaryCodec.unpack(unpacker).map(binaryToNumberArray) }
 
   val extUnpacker: Unpacker[Json] = { unpacker =>
     val header = unpacker.unpackExtTypeHeader
