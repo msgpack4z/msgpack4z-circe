@@ -152,7 +152,7 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
       val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-circe/" + tagOrHash.value
       s"-P:scalajs:mapSourceURI:$a->$g/"
     },
-    scalaJSSemantics ~= { _.withStrictFloats(true) },
+    scalaJSLinkerConfig ~= { _.withSemantics(_.withStrictFloats(true)) },
     scalaJSStage in Test := FastOptStage
   )
   .jvmSettings(
