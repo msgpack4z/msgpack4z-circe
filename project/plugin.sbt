@@ -4,7 +4,7 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.2")
 addSbtPlugin("com.github.scalaprops" % "sbt-scalaprops" % "0.3.2")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.0.1")
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.3")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.4")
 
 scalacOptions ++= Seq(
   "-deprecation",
