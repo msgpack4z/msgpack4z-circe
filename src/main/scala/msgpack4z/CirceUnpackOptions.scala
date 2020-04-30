@@ -2,7 +2,7 @@ package msgpack4z
 
 import msgpack4z.CirceUnpackOptions.NonStringKeyHandler
 import io.circe.Json
-import scalaz.\/-
+import scalaz.{\/, \/-}
 
 final case class CirceUnpackOptions(
   extension: Unpacker[Json],
@@ -31,7 +31,7 @@ object CirceUnpackOptions {
 
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
 
-  private[this] val jNullRight = \/-(Json.Null)
+  private[this] val jNullRight: UnpackError \/ Json = \/-(Json.Null)
 
   val default: CirceUnpackOptions = CirceUnpackOptions(
     extUnpacker,
