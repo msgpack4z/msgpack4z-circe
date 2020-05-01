@@ -14,10 +14,11 @@ object CirceMsgpack {
   def jsonObjectCodec(options: CirceUnpackOptions): MsgpackCodec[JsonObject] =
     new CodecCirceJsonObject(options)
 
-  def allCodec(options: CirceUnpackOptions): (MsgpackCodec[Json], MsgpackCodec[JsonObject]) = (
-    jsonCodec(options),
-    jsonObjectCodec(options)
-  )
+  def allCodec(options: CirceUnpackOptions): (MsgpackCodec[Json], MsgpackCodec[JsonObject]) =
+    (
+      jsonCodec(options),
+      jsonObjectCodec(options)
+    )
 
   def jsonObject2msgpack(packer: MsgPacker, obj: JsonObject): Unit = {
     val fields = obj.toList
@@ -104,14 +105,15 @@ object CirceMsgpack {
     var error: UnpackError
   )
   private[this] object Result {
-    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean = e match {
-      case \/-(r) =>
-        result.value = r
-        true
-      case -\/(l) =>
-        result.error = l
-        false
-    }
+    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean =
+      e match {
+        case \/-(r) =>
+          result.value = r
+          true
+        case -\/(l) =>
+          result.error = l
+          false
+      }
 
     def empty[A >: Null]: Result[A] = Result[A](null, null)
   }

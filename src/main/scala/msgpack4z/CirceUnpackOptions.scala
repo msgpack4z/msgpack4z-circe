@@ -38,7 +38,8 @@ object CirceUnpackOptions {
     binaryToNumberArrayUnpacker,
     jNullRight,
     jNullRight,
-    jNullRight, {
+    jNullRight,
+    {
       case (tpe, unpacker) =>
         PartialFunction.condOpt(tpe) {
           case MsgType.NIL =>
