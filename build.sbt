@@ -38,7 +38,7 @@ val unusedWarnings = Seq(
   "-Ywarn-unused:imports",
 )
 
-val scala212 = "2.12.10"
+val scala212 = "2.12.12"
 
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
@@ -96,7 +96,7 @@ val commonSettings = Def.settings(
   },
   scalacOptions ++= unusedWarnings,
   scalaVersion := scala212,
-  crossScalaVersions := scala212 :: "2.13.1" :: Nil,
+  crossScalaVersions := scala212 :: "2.13.3" :: Nil,
   scalacOptions in (Compile, doc) ++= {
     val tag = tagOrHash.value
     Seq(
