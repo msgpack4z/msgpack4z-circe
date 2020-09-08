@@ -39,20 +39,19 @@ object CirceUnpackOptions {
     jNullRight,
     jNullRight,
     jNullRight,
-    {
-      case (tpe, unpacker) =>
-        PartialFunction.condOpt(tpe) {
-          case MsgType.NIL =>
-            "null"
-          case MsgType.BOOLEAN =>
-            unpacker.unpackBoolean().toString
-          case MsgType.INTEGER =>
-            unpacker.unpackBigInteger().toString
-          case MsgType.FLOAT =>
-            unpacker.unpackDouble().toString
-          case MsgType.STRING =>
-            unpacker.unpackString()
-        }
+    { case (tpe, unpacker) =>
+      PartialFunction.condOpt(tpe) {
+        case MsgType.NIL =>
+          "null"
+        case MsgType.BOOLEAN =>
+          unpacker.unpackBoolean().toString
+        case MsgType.INTEGER =>
+          unpacker.unpackBigInteger().toString
+        case MsgType.FLOAT =>
+          unpacker.unpackDouble().toString
+        case MsgType.STRING =>
+          unpacker.unpackString()
+      }
     }
   )
 }
