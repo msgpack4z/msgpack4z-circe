@@ -1,0 +1,25 @@
+name: CI
+on:
+  pull_request:
+  push:
+  schedule:
+  - cron: '0 8 * * 5'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - uses: olafurpg/setup-scala@v10
+      with:
+        java-version: "adopt@1.8"
+    - uses: coursier/cache-action@v5
+    - run: git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
+    - run: git show --oneline --check
+    - run: sbt -v
+           scalafmtCheckAll
+           scalafmtSbtCheck
+           "+ test:compile"
+           "+ msgpack4zCirceJVM/test"
+           "+ msgpack4zCirceJS/test"
