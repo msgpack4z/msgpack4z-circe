@@ -22,5 +22,5 @@ jobs:
            scalafmtCheckAll
            scalafmtSbtCheck
            "+ test:compile"
-           "+ msgpack4zCirceJVM/test"
-           "+ msgpack4zCirceJS/test"
+           "+ msgpack4z-circeJVM/test"
+           "+ msgpack4z-circeJS/test"
