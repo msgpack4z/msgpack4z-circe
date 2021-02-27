@@ -25,7 +25,7 @@ val CustomCrossType = new sbtcrossproject.CrossType {
 }
 
 val tagName = Def.setting {
-  s"v${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}"
+  s"v${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}"
 }
 val tagOrHash = Def.setting {
   if (isSnapshot.value) gitHash() else tagName.value
@@ -58,7 +58,7 @@ val commonSettings = Def.settings(
     ReleaseStep(
       action = { state =>
         val extracted = Project extract state
-        extracted.runAggregated(PgpKeys.publishSigned in Global in extracted.get(thisProjectRef), state)
+        extracted.runAggregated(extracted.get(thisProjectRef) / (Global / PgpKeys.publishSigned), state)
       },
       enableCrossBuild = true
     ),
@@ -96,11 +96,11 @@ val commonSettings = Def.settings(
   scalacOptions ++= unusedWarnings,
   scalaVersion := scala212,
   crossScalaVersions := scala212 :: "2.13.5" :: Nil,
-  scalacOptions in (Compile, doc) ++= {
+  (Compile / doc / scalacOptions) ++= {
     val tag = tagOrHash.value
     Seq(
       "-sourcepath",
-      (baseDirectory in LocalRootProject).value.getAbsolutePath,
+      (LocalRootProject / baseDirectory).value.getAbsolutePath,
       "-doc-source-url",
       s"https://github.com/msgpack4z/msgpack4z-circe/tree/${tag}€{FILE_PATH}.scala"
     )
@@ -130,7 +130,7 @@ val commonSettings = Def.settings(
     val stripTestScope = stripIf { n => n.label == "dependency" && (n \ "scope").text == "test" }
     new RuleTransformer(stripTestScope).transform(node)(0)
   },
-  Seq(Compile, Test).flatMap(c => scalacOptions in (c, console) --= unusedWarnings)
+  Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings)
 )
 
 lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform, JSPlatform)
@@ -148,12 +148,12 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
   )
   .jsSettings(
     scalacOptions += {
-      val a = (baseDirectory in LocalRootProject).value.toURI.toString
+      val a = (LocalRootProject / baseDirectory).value.toURI.toString
       val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-circe/" + tagOrHash.value
       s"-P:scalajs:mapSourceURI:$a->$g/"
     },
     scalaJSLinkerConfig ~= { _.withSemantics(_.withStrictFloats(true)) },
-    scalaJSStage in Test := FastOptStage
+    Test / scalaJSStage := FastOptStage
   )
   .jvmSettings(
     libraryDependencies ++= Seq(
@@ -176,9 +176,9 @@ val root = Project("root", file("."))
     PgpKeys.publishSigned := {},
     publishLocal := {},
     publish := {},
-    publishArtifact in Compile := false,
-    scalaSource in Compile := file("dummy"),
-    scalaSource in Test := file("dummy")
+    Compile / publishArtifact := false,
+    Compile / scalaSource := file("dummy"),
+    Test / scalaSource := file("dummy")
   )
   .aggregate(
     msgpack4zCirceJS,
