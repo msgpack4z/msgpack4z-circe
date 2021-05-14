@@ -19,8 +19,8 @@ jobs:
     - run: git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
     - run: git show --oneline --check
     - run: sbt -v
-           scalafmtCheckAll
+           "+ scalafmtCheckAll"
            scalafmtSbtCheck
-           "+ test:compile"
+           "+ Test/compile"
            "+ msgpack4z-circeJVM/test"
            "+ msgpack4z-circeJS/test"
