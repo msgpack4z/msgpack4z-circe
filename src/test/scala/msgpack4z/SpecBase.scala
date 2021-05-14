@@ -21,7 +21,7 @@ abstract class SpecBase extends Scalaprops {
   private[this] implicit val bigDecimalGen: Gen[BigDecimal] =
     Gen[Double].map(BigDecimal(_))
 
-  private[this] implicit val stringGen = Gen.alphaNumString
+  private[this] implicit val stringGen: Gen[String] = Gen.alphaNumString
 
   private[this] val jsonNumberGen: Gen[Json] =
     Gen.oneOf(
@@ -75,7 +75,7 @@ abstract class SpecBase extends Scalaprops {
   protected[this] def unpacker(bytes: Array[Byte]): MsgUnpacker
 
   private[this] def checkRoundTripBytes[A](implicit A: MsgpackCodec[A], G: Gen[A], E: Equal[A]) =
-    Property.forAll { a: A =>
+    Property.forAll { (a: A) =>
       A.roundtripz(a, packer(), unpacker _) match {
         case None =>
           true
