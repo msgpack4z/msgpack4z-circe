@@ -185,7 +185,7 @@ object CirceMsgpack {
   private def isValidLong(value: java.math.BigInteger): Boolean =
     (BigIntegerLongMin.compareTo(value) <= 0) && (value.compareTo(BigIntegerLongMax) <= 0)
 
-  private[msgpack4z] def msgpack2json0(unpacker: MsgUnpacker, result: Result[Json], unpackOptions: CirceUnpackOptions): Boolean = {
+  private[this] def msgpack2json0(unpacker: MsgUnpacker, result: Result[Json], unpackOptions: CirceUnpackOptions): Boolean = {
     unpacker.nextType match {
       case MsgType.NIL =>
         unpacker.unpackNil()
