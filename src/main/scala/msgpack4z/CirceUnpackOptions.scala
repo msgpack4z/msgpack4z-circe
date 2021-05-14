@@ -19,7 +19,7 @@ object CirceUnpackOptions {
   val binaryToNumberArrayUnpacker: Unpacker[Json] = { unpacker => CodecInstances.binary.binaryCodec.unpack(unpacker).map(binaryToNumberArray) }
 
   val extUnpacker: Unpacker[Json] = { unpacker =>
-    val header = unpacker.unpackExtTypeHeader
+    val header = unpacker.unpackExtTypeHeader()
     val data = unpacker.readPayload(header.getLength)
     val dataArray = Json.fromValues(data.iterator.map(byte => Json.fromLong(byte)).toSeq)
     val result = Json.obj(
