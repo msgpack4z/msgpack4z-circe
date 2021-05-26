@@ -138,7 +138,7 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
     libraryDependencies ++= Seq(
-      "io.circe" %%% "circe-core" % "0.13.0" cross CrossVersion.for3Use2_13,
+      "io.circe" %%% "circe-core" % "0.14.0",
       "com.github.xuwei-k" %%% "msgpack4z-core" % "0.5.2",
       "com.github.scalaprops" %%% "scalaprops" % "0.8.3" % "test",
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.8" % "test",
