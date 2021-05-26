@@ -3,8 +3,6 @@ import sbtcrossproject.CrossProject
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val defaultCirceVersion = "0.13.0"
-
 val CustomCrossType = new sbtcrossproject.CrossType {
   override def projectDir(crossBase: File, projectType: String) =
     crossBase / projectType
