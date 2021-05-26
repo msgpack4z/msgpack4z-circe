@@ -180,8 +180,8 @@ val root = Project("root", file("."))
     publishLocal := {},
     publish := {},
     Compile / publishArtifact := false,
-    Compile / scalaSource := file("dummy"),
-    Test / scalaSource := file("dummy")
+    Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy",
+    Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
   )
   .aggregate(
     msgpack4zCirceJS,
