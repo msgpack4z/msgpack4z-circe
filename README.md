@@ -12,5 +12,3 @@
 ```scala
 libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.12.1"
 ```
-
-- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-circe_2.12/0.12.1/msgpack4z-circe_2.12-0.12.1-sxr.jar/!/index.html)

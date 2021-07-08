@@ -163,7 +163,6 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
       "com.github.xuwei-k" % "msgpack4z-java" % "0.3.6" % "test",
       "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
     ),
-    Sxr.settings
   )
 
 val msgpack4zCirceJS = msgpack4zCirce.js
