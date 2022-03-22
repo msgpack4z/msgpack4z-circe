@@ -3,7 +3,7 @@ addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.12")
 addSbtPlugin("com.github.scalaprops" % "sbt-scalaprops" % "0.4.3")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.9.0")
-addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.1.0")
+addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.2.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
 
 scalacOptions ++= Seq(
