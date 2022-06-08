@@ -36,7 +36,7 @@ val unusedWarnings = Seq(
   "-Ywarn-unused:imports",
 )
 
-val scala212 = "2.12.15"
+val scala212 = "2.12.16"
 
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
