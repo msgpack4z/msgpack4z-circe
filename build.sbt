@@ -155,7 +155,6 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
           s"-scalajs-mapSourceURI:$a->$g/"
       }
     },
-    scalaJSLinkerConfig ~= { _.withSemantics(_.withStrictFloats(true)) },
     Test / scalaJSStage := FastOptStage
   )
   .jvmSettings(
