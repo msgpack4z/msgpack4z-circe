@@ -93,7 +93,7 @@ val commonSettings = Def.settings(
   },
   scalacOptions ++= unusedWarnings,
   scalaVersion := scala212,
-  crossScalaVersions := scala212 :: "2.13.8" :: "3.1.3" :: Nil,
+  crossScalaVersions := scala212 :: "2.13.8" :: "3.2.0" :: Nil,
   (Compile / doc / scalacOptions) ++= {
     val tag = tagOrHash.value
     Seq(
