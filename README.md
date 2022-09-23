@@ -10,5 +10,5 @@
 ### latest stable version
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.13.0"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-circe" % "0.14.0"
 ```
