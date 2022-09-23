@@ -11,6 +11,7 @@ val CustomCrossType = new sbtcrossproject.CrossType {
     val dir = projectType match {
       case JVMPlatform => "jvm"
       case JSPlatform => "js"
+      case NativePlatform => "native"
     }
     crossBase / dir
   }
@@ -131,7 +132,7 @@ val commonSettings = Def.settings(
   Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings)
 )
 
-lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform, JSPlatform)
+lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform, JSPlatform, NativePlatform)
   .crossType(CustomCrossType)
   .settings(
     commonSettings,
@@ -164,6 +165,7 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
     ),
   )
 
+val msgpack4zCirceNative = msgpack4zCirce.native
 val msgpack4zCirceJS = msgpack4zCirce.js
 val msgpack4zCirceJVM = msgpack4zCirce.jvm
 
