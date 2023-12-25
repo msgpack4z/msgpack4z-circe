@@ -91,6 +91,14 @@ val commonSettings = Def.settings(
         Nil
     }
   },
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, _)) =>
+        Seq("-Xsource:3")
+      case _ =>
+        Nil
+    }
+  },
   scalacOptions ++= unusedWarnings,
   scalaVersion := scala212,
   crossScalaVersions := scala212 :: "2.13.12" :: "3.3.1" :: Nil,
