@@ -171,26 +171,19 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
       "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
     ),
   )
+  .nativeSettings(
+    scalapropsNativeSettings,
+  )
 
 val msgpack4zCirceNative = msgpack4zCirce.native
 val msgpack4zCirceJS = msgpack4zCirce.js
 val msgpack4zCirceJVM = msgpack4zCirce.jvm
 
-val root = Project("root", file("."))
-  .settings(
-    commonSettings,
-    commands += Command.command("testSequential") {
-      List(msgpack4zCirceJVM, msgpack4zCirceJS).map(_.id + "/test") ::: _
-    },
-    PgpKeys.publishLocalSigned := {},
-    PgpKeys.publishSigned := {},
-    publishLocal := {},
-    publish := {},
-    Compile / publishArtifact := false,
-    Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy",
-    Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
-  )
-  .aggregate(
-    msgpack4zCirceJS,
-    msgpack4zCirceJVM
-  )
+commonSettings
+PgpKeys.publishLocalSigned := {}
+PgpKeys.publishSigned := {}
+publishLocal := {}
+publish := {}
+Compile / publishArtifact := false
+Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
+Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
