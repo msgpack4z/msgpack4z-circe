@@ -25,3 +25,4 @@ jobs:
            "+ Test/compile"
            "+ msgpack4z-circeJVM/test"
            "+ msgpack4z-circeJS/test"
+           "+ msgpack4z-circeNative/test"
