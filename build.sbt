@@ -93,6 +93,8 @@ val commonSettings = Def.settings(
   },
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, 13)) =>
+        Seq("-Xsource:3-cross")
       case Some((2, _)) =>
         Seq("-Xsource:3")
       case _ =>
