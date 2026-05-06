@@ -16,5 +16,3 @@ scalacOptions ++= Seq(
   "-language:implicitConversions",
   "-Yno-adapted-args",
 )
-
-fullResolvers ~= { _.filterNot(_.name == "jcenter") }

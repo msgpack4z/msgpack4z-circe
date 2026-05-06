@@ -42,7 +42,6 @@ val scala212 = "2.12.21"
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
   publishTo := sonatypePublishToBundle.value,
-  fullResolvers ~= { _.filterNot(_.name == "jcenter") },
   commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
   releaseTagName := tagName.value,
   releaseProcess := Seq[ReleaseStep](
