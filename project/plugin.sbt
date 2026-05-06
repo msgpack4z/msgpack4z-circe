@@ -11,7 +11,6 @@ scalacOptions ++= Seq(
   "-deprecation",
   "-unchecked",
   "-language:existentials",
-  "-language:higherKinds",
   "-language:implicitConversions",
   "-Yno-adapted-args",
 )
