@@ -10,7 +10,7 @@ val tagOrHash = Def.setting {
 }
 
 def gitHash(): String =
-  sys.process.Process("git rev-parse HEAD").lineStream_!.head
+  sys.process.Process("git rev-parse HEAD").lazyLines_!.head
 
 val unusedWarnings = Def.setting(
   scalaBinaryVersion.value match {
@@ -123,10 +123,10 @@ lazy val msgpack4zCirce = projectMatrix
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
     libraryDependencies ++= Seq(
-      "io.circe" %%% "circe-core" % "0.14.15",
-      "com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.2",
-      "com.github.scalaprops" %%% "scalaprops" % "0.11.0" % "test",
-      "com.github.xuwei-k" %%% "msgpack4z-native" % "0.4.0" % "test",
+      "io.circe" %% "circe-core" % "0.14.15",
+      "com.github.xuwei-k" %% "msgpack4z-core" % "0.6.2",
+      "com.github.scalaprops" %% "scalaprops" % "0.11.0" % "test",
+      "com.github.xuwei-k" %% "msgpack4z-native" % "0.4.0" % "test",
     )
   )
   .jsPlatform(
@@ -142,7 +142,6 @@ lazy val msgpack4zCirce = projectMatrix
             s"-scalajs-mapSourceURI:$a->$g/"
         }
       },
-      Test / scalaJSStage := FastOptStage
     )
   )
   .jvmPlatform(
@@ -161,26 +160,28 @@ lazy val msgpack4zCirce = projectMatrix
     )
   )
 
-commonSettings
-autoScalaLibrary := false
-PgpKeys.publishLocalSigned := {}
-PgpKeys.publishSigned := {}
-publishLocal := {}
-publish := {}
-Compile / publishArtifact := false
-Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
-Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
-TaskKey[Unit]("testSequential") := Def
-  .sequential(
-    msgpack4zCirce
-      .allProjects()
-      .map(_._1)
-      .sortBy(_.id)
-      .flatMap(p =>
-        Seq(
-          Def.task(streams.value.log.info(s"start ${p.id} test")),
-          p / Test / test
+val msgpack4zCirceRoot = rootProject.autoAggregate.settings(
+  commonSettings,
+  autoScalaLibrary := false,
+  PgpKeys.publishLocalSigned := {},
+  PgpKeys.publishSigned := {},
+  publishLocal := {},
+  publish := {},
+  Compile / publishArtifact := false,
+  Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy",
+  Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy",
+  TaskKey[Unit]("testSequential") := Def
+    .sequential(
+      msgpack4zCirce
+        .allProjects()
+        .map(_._1)
+        .sortBy(_.id)
+        .flatMap(p =>
+          Seq[Def.Initialize[sbt.Task[Unit]]](
+            Def.task(streams.value.log.info(s"start ${p.id} test")),
+            (p / Test / testFull).map(_ => ()),
+          )
         )
-      )
-  )
-  .value
+    )
+    .value,
+)
