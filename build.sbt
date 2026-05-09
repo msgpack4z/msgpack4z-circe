@@ -1,27 +1,6 @@
 import sbtrelease.ReleaseStateTransformations._
-import sbtcrossproject.CrossProject
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
-
-val CustomCrossType = new sbtcrossproject.CrossType {
-  override def projectDir(crossBase: File, projectType: String) =
-    crossBase / projectType
-
-  override def projectDir(crossBase: File, projectType: sbtcrossproject.Platform) = {
-    val dir = projectType match {
-      case JVMPlatform => "jvm"
-      case JSPlatform => "js"
-      case NativePlatform => "native"
-    }
-    crossBase / dir
-  }
-
-  def shared(projectBase: File, conf: String) =
-    projectBase.getParentFile / "src" / conf / "scala"
-
-  override def sharedSrcDir(projectBase: File, conf: String) =
-    Some(shared(projectBase, conf))
-}
 
 val tagName = Def.setting {
   s"v${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}"
@@ -37,7 +16,7 @@ val unusedWarnings = Seq(
   "-Ywarn-unused:imports",
 )
 
-val scala212 = "2.12.21"
+val scalaVersions = Seq("2.12.21", "2.13.18", "3.3.7")
 
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
@@ -53,14 +32,8 @@ val commonSettings = Def.settings(
     commitReleaseVersion,
     UpdateReadme.updateReadmeProcess,
     tagRelease,
-    ReleaseStep(
-      action = { state =>
-        val extracted = Project extract state
-        extracted.runAggregated(extracted.get(thisProjectRef) / (Global / PgpKeys.publishSigned), state)
-      },
-      enableCrossBuild = true
-    ),
-    releaseStepCommand("sonaRelease"),
+    releaseStepCommandAndRemaining("publishSigned"),
+    releaseStepCommandAndRemaining("sonaRelease"),
     setNextVersion,
     commitNextVersion,
     UpdateReadme.updateReadmeProcess,
@@ -95,8 +68,6 @@ val commonSettings = Def.settings(
     }
   },
   scalacOptions ++= unusedWarnings,
-  scalaVersion := scala212,
-  crossScalaVersions := scala212 :: "2.13.18" :: "3.3.7" :: Nil,
   (Compile / doc / scalacOptions) ++= {
     val tag = tagOrHash.value
     Seq(
@@ -134,8 +105,10 @@ val commonSettings = Def.settings(
   Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings)
 )
 
-lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform, JSPlatform, NativePlatform)
-  .crossType(CustomCrossType)
+lazy val msgpack4zCirce = projectMatrix
+  .defaultAxes()
+  .in(file("."))
+  .withId("msgpack4z-circe")
   .settings(
     commonSettings,
     scalapropsCoreSettings,
@@ -147,34 +120,40 @@ lazy val msgpack4zCirce = CrossProject("msgpack4z-circe", file("."))(JVMPlatform
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.4.0" % "test",
     )
   )
-  .jsSettings(
-    scalacOptions += {
-      val a = (LocalRootProject / baseDirectory).value.toURI.toString
-      val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-circe/" + tagOrHash.value
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, _)) =>
-          s"-P:scalajs:mapSourceURI:$a->$g/"
-        case _ =>
-          s"-scalajs-mapSourceURI:$a->$g/"
-      }
-    },
-    Test / scalaJSStage := FastOptStage
+  .jsPlatform(
+    scalaVersions,
+    Def.settings(
+      scalacOptions += {
+        val a = (LocalRootProject / baseDirectory).value.toURI.toString
+        val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-circe/" + tagOrHash.value
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            s"-P:scalajs:mapSourceURI:$a->$g/"
+          case _ =>
+            s"-scalajs-mapSourceURI:$a->$g/"
+        }
+      },
+      Test / scalaJSStage := FastOptStage
+    )
   )
-  .jvmSettings(
-    libraryDependencies ++= Seq(
-      "com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test",
-      "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
-    ),
+  .jvmPlatform(
+    scalaVersions,
+    Def.settings(
+      libraryDependencies ++= Seq(
+        "com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test",
+        "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
+      ),
+    )
   )
-  .nativeSettings(
-    scalapropsNativeSettings,
+  .nativePlatform(
+    scalaVersions,
+    Def.settings(
+      scalapropsNativeSettings,
+    )
   )
-
-val msgpack4zCirceNative = msgpack4zCirce.native
-val msgpack4zCirceJS = msgpack4zCirce.js
-val msgpack4zCirceJVM = msgpack4zCirce.jvm
 
 commonSettings
+autoScalaLibrary := false
 PgpKeys.publishLocalSigned := {}
 PgpKeys.publishSigned := {}
 publishLocal := {}
@@ -182,3 +161,17 @@ publish := {}
 Compile / publishArtifact := false
 Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
 Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
+TaskKey[Unit]("testSequential") := Def
+  .sequential(
+    msgpack4zCirce
+      .allProjects()
+      .map(_._1)
+      .sortBy(_.id)
+      .flatMap(p =>
+        Seq(
+          Def.task(streams.value.log.info(s"start ${p.id} test")),
+          p / Test / test
+        )
+      )
+  )
+  .value
