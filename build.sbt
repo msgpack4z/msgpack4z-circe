@@ -12,8 +12,17 @@ val tagOrHash = Def.setting {
 def gitHash(): String =
   sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
-val unusedWarnings = Seq(
-  "-Ywarn-unused:imports",
+val unusedWarnings = Def.setting(
+  scalaBinaryVersion.value match {
+    case "2.12" =>
+      Seq(
+        "-Ywarn-unused:imports",
+      )
+    case _ =>
+      Seq(
+        "-Wunused:imports",
+      )
+  }
 )
 
 val scalaVersions = Seq("2.12.21", "2.13.18", "3.3.7")
@@ -67,7 +76,7 @@ val commonSettings = Def.settings(
         Nil
     }
   },
-  scalacOptions ++= unusedWarnings,
+  scalacOptions ++= unusedWarnings.value,
   (Compile / doc / scalacOptions) ++= {
     val tag = tagOrHash.value
     Seq(
@@ -102,7 +111,7 @@ val commonSettings = Def.settings(
     val stripTestScope = stripIf { n => n.label == "dependency" && (n \ "scope").text == "test" }
     new RuleTransformer(stripTestScope).transform(node)(0)
   },
-  Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings)
+  Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings.value)
 )
 
 lazy val msgpack4zCirce = projectMatrix
