@@ -8,6 +8,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      JAVA_OPTS: -Xmx6G
+      JVM_OPTS:  -Xmx6G
     strategy:
       fail-fast: false
     steps:
