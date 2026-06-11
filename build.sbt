@@ -25,7 +25,7 @@ val unusedWarnings = Def.setting(
   }
 )
 
-val scalaVersions = Seq("2.12.21", "2.13.18", "3.3.7")
+val scalaVersions = Seq("2.12.21", "2.13.18", "3.3.8")
 
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
