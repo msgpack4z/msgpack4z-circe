@@ -123,7 +123,7 @@ lazy val msgpack4zCirce = projectMatrix
     scalapropsCoreSettings,
     name := build.msgpack4zCirceName,
     libraryDependencies ++= Seq(
-      "io.circe" %% "circe-core" % "0.14.15",
+      "io.circe" %% "circe-core" % "0.14.16",
       "com.github.xuwei-k" %% "msgpack4z-core" % "0.6.2",
       "com.github.scalaprops" %% "scalaprops" % "0.11.0" % "test",
       "com.github.xuwei-k" %% "msgpack4z-native" % "0.4.0" % "test",
