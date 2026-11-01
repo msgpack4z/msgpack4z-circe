@@ -88,14 +88,14 @@ abstract class SpecBase extends Scalaprops {
       }
     }
 
-  val json = {
+  property("json") = {
     implicit val instance = CirceMsgpack.jsonCodec(
       CirceUnpackOptions.default
     )
     checkRoundTripBytes[Json]
   }
 
-  val jsonObject = {
+  property("jsonObject") = {
     implicit val instance = CirceMsgpack.jsonObjectCodec(
       CirceUnpackOptions.default
     )
