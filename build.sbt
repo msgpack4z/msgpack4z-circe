@@ -156,7 +156,6 @@ lazy val msgpack4zCirce = projectMatrix
   .nativePlatform(
     scalaVersions,
     Def.settings(
-      scalapropsNativeSettings,
     )
   )
 
